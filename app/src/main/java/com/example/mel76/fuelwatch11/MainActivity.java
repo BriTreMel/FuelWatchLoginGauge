@@ -10,75 +10,34 @@ import android.content.Intent;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.os.Handler;
+
 
 
 
 public class MainActivity extends Activity {
 
-    private EditText emailField, passwordField;
-    private TextView oilLevel;
-    String OilLevelFromDataBase;
+    private final int SPLASH_DISPLAY_LENGTH = 10000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // handler to move from splash screen to login screen
 
-        emailField = (EditText) findViewById(R.id.editTextEmail);
-        passwordField = (EditText) findViewById(R.id.editTextPassword);
-
-        oilLevel = (TextView) findViewById(R.id.textViewLevel);
-
-        TextView dbOilLevel = (TextView) findViewById(R.id.textViewLevel);
-        String dbOilLevelConverted = (String) dbOilLevel.getText().toString();
-        int dbOilLevelInt = Integer.parseInt(dbOilLevelConverted);
-        //adding the google charts
-        WebView webview = (WebView) findViewById(R.id.webView1);
-
-
-
-        String content = "<html>"
-                + "  <head>"
-                + "    <script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>"
-                + "    <script type=\"text/javascript\">"
-                + "      google.charts.load('current', {'packages':['gauge']});"
-                + "      google.charts.setOnLoadCallback(drawChart);"
-                + "      function drawChart() {"
-                + "        var data = google.visualization.arrayToDataTable(["
-                + "          ['Label', 'Value'],"
-                + "          ['Oil Level', "+ dbOilLevelConverted +"],"
-                + "        ]);"
-                + "        var options = {"
-                + "          width: 800, height: 240,"
-                + "          redFrom: 0, redTo: 10,"
-                + "          yellowFrom:10, yellowTo: 20,"
-                + "          minorTicks: 5"
-                + "        };"
-
-                + "        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));"
-                + "        chart.draw(data, options);"
-                + "        setInterval(function() {"
-                + "        data.setValue(0, 1, 40 + Math.round(60 * Math.random()));"
-                + "        chart.draw(data, options);"
-                + "        }, 13000);"
-                + "      }"
-                + "    </script>"
-                + "  </head>"
-                + "  <body>"
-                + "    <div id=\"chart_div\" style=\"width: 400px; height: 120px;\"></div>"
-                + "  </body>" + "</html>";
-
-
-
-        WebSettings webSettings = webview.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webview.requestFocusFromTouch();
-
-        webview.loadDataWithBaseURL("file:///android_asset/", content, "text/html", "utf-8", null);
-
-
+        new Handler().postDelayed(new Runnable(){
+            @Override
+            public void run(){
+                //create an intent that will start the log in screen
+                Intent logInIntent = new Intent(MainActivity.this,log_in_screen.class);
+                MainActivity.this.startActivity(logInIntent);
+                MainActivity.this.finish();
+            }
+        }, SPLASH_DISPLAY_LENGTH);
 
 
     }
@@ -90,27 +49,6 @@ public class MainActivity extends Activity {
         return true;
     }
 
-   /* public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
-            case R.id.action_to_image:
-            Intent intent = new Intent(MainActivity.this, GoogleImageGraphActivity.class);
-            startActivity(intent);
-            return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }*/
-
-    public void loginPost(View view){
-        String email = emailField.getText().toString();
-        String password = passwordField.getText().toString();
-
-        // Passes the data to the singinActivity.java
-        //oil level passed to new activity, with flag set to 1 (means using a POST method)
-        new SigninActivity(this,oilLevel,1).execute(email, password);
 
 
-    }
 }
-
