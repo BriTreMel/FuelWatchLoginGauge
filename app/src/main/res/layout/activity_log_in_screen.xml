@@ -92,17 +92,30 @@
             android:id="@+id/btnLogin"
             android:onClick="loginPost"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_toStartOf="@+id/editTextPassword" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/view_guage_button_text"
             android:id="@+id/btnViewGauge"
-            android:layout_marginTop="69dp"
             android:onClick="viewGaugePage"
-            android:layout_below="@+id/btnLogin"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/textViewMess" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_below="@+id/btnLogin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="67dp">
+
+        <WebView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/webView2"
+            android:layout_gravity="center" />
+    </FrameLayout>
 
 
 </RelativeLayout>

@@ -14,12 +14,13 @@ package com.example.mel76.fuelwatch11;
 
 
 
-public class log_in_screen extends Activity{
+public class log_in_screen extends Activity {
 
     private EditText emailField, passwordField;
     private TextView oilLevel;
     String oilLevelFromDataBase;
     String message;
+    int number = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +57,67 @@ public class log_in_screen extends Activity{
 
         // Passes the data to the singinActivity.java
         //oil level passed to new activity, with flag set to 1 (means using a POST method)
-        new SigninActivity(this,oilLevel,1).execute(email, password);
+
+     //  while(number > 0) {
+           new SigninActivity(this, oilLevel, 1).execute(email, password);
+          // oilLevelFromDataBase = SigninActivity.onPost
+
+           oilLevelFromDataBase = oilLevel.getText().toString();
+
+         //  oilLevelFromDataBase = SigninActivity.get().toString();
+
+           WebView webview = (WebView) findViewById(R.id.webView2);
+
+           String content = "<html>"
+                   + "<head>"
+                   + "<script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>"
+                   + " <script type=\"text/javascript\">"
+                   + "     google.charts.load('current', {'packages':['gauge']});"
+                   + "google.charts.setOnLoadCallback(drawChart);"
+                   + "function drawChart() {"
+
+                   + "var data = google.visualization.arrayToDataTable(["
+                   + "['Label', 'Value'],"
+                   + "['Oil Level', " + oilLevelFromDataBase + "],"
+                   + "]);"
+
+                   + "var options = {"
+                   + " width: 400, height: 120,"
+                   + " redFrom: 0, redTo: 10,"
+                   + " yellowFrom:10, yellowTo: 20,"
+                   + " minorTicks: 5"
+                   + "};"
+
+                   + "var chart = new google.visualization.Gauge(document.getElementById('chart_div'));"
+
+                   + "chart.draw(data, options);"
+
+                   + "setInterval(function() {"
+                   + "data.setValue(0, 1, " + oilLevelFromDataBase + ");"
+                   + "chart.draw(data, options);"
+                   + "}, 13000);"
+
+                   + "}"
+                   + "</script>"
+                   + "</head>"
+                   + "<body>"
+                   + "<div id=\"chart_div\" style=\"width: 400px; height: 120px;\"></div>"
+                   + "</body>"
+                   + "</html>";
+
+
+           WebSettings webSettings = webview.getSettings();
+           webSettings.setJavaScriptEnabled(true);
+           // webview.requestFocusFromTouch();
+
+           webview.loadDataWithBaseURL("file:///android_asset/", content, "text/html", "utf-8", null);
+
+
+    //   }// end of while loop
 
         oilLevelFromDataBase = oilLevel.getText().toString();
+
+        updateGauge(oilLevelFromDataBase);
 
 
     }
@@ -84,63 +143,53 @@ public class log_in_screen extends Activity{
     }
 
 
-    public void onViewGaugeButton(View view){
-        // Gets the URL from the UI's text field
+    public void updateGauge(String oilLevelFromDataBase){
 
-       /* String stringURLFacebook = "https://www.facebook.com/pages/Tipperary-GAA/106144626082994?fref=ts";
-        //webView.loadUrl(stringURL);
+       // oilLevelFromDataBase = "50";
 
-        // String stringURL = urlText.getText().toString();
-        ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if(networkInfo != null && networkInfo.isConnected()){
-            webView.loadUrl(stringURLFacebook);
-            // webView.loadUrl("http://tipperary.gaa.ie/");
-        }else{
-            textView.setText("No network connection available");
-        }*/
-
-        WebView webview = (WebView) findViewById(R.id.webViewGauge);
-
-
+        WebView webview = (WebView) findViewById(R.id.webView2);
 
         String content = "<html>"
-                + "  <head>"
-                + "    <script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>"
-                + "    <script type=\"text/javascript\">"
-                + "      google.charts.load('current', {'packages':['gauge']});"
-                + "      google.charts.setOnLoadCallback(drawChart);"
-                + "      function drawChart() {"
-                + "        var data = google.visualization.arrayToDataTable(["
-                + "          ['Label', 'Value'],"
-                + "          ['Oil Level', 8],"
-                + "        ]);"
-                + "        var options = {"
-                + "          width: 800, height: 240,"
-                + "          redFrom: 0, redTo: 10,"
-                + "          yellowFrom:10, yellowTo: 20,"
-                + "          minorTicks: 5"
-                + "        };"
+                + "<head>"
+                + "<script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>"
+                + " <script type=\"text/javascript\">"
+                + "     google.charts.load('current', {'packages':['gauge']});"
+                + "google.charts.setOnLoadCallback(drawChart);"
+                + "function drawChart() {"
 
-                + "        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));"
-                + "        chart.draw(data, options);"
-                + "        setInterval(function() {"
-                + "        data.setValue(0, 1, 10));"
-                + "        chart.draw(data, options);"
-                + "        }, 13000);"
-                + "      }"
+                + "var data = google.visualization.arrayToDataTable(["
+                + "['Label', 'Value'],"
+                + "['Oil Level', " + oilLevelFromDataBase + "],"
+                + "]);"
 
-                + "    </script>"
-                + "  </head>"
-                + "  <body>"
-                + "    <div id=\"chart_div\" style=\"width: 400px; height: 120px;\"></div>"
-                + "  </body>" + "</html>";
+                + "var options = {"
+                + " width: 400, height: 120,"
+                + " redFrom: 0, redTo: 10,"
+                + " yellowFrom:10, yellowTo: 20,"
+                + " minorTicks: 5"
+                + "};"
 
+                + "var chart = new google.visualization.Gauge(document.getElementById('chart_div'));"
+
+                + "chart.draw(data, options);"
+
+                + "setInterval(function() {"
+                + "data.setValue(0, 1, " + oilLevelFromDataBase + ");"
+                + "chart.draw(data, options);"
+                + "}, 13000);"
+
+                + "}"
+                + "</script>"
+                + "</head>"
+                + "<body>"
+                + "<div id=\"chart_div\" style=\"width: 400px; height: 120px;\"></div>"
+                + "</body>"
+                + "</html>";
 
 
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webview.requestFocusFromTouch();
+        // webview.requestFocusFromTouch();
 
         webview.loadDataWithBaseURL("file:///android_asset/", content, "text/html", "utf-8", null);
 

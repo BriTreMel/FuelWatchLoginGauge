@@ -17,7 +17,18 @@ public class SigninActivity extends AsyncTask<String,Void,String> {
     public Context context;
     private int byGetOrPost = 0;//flag 0 means get and 1 means post.(By default it is get.)
     public String oilLevelFromDataBase;
-    //public MainActivity.AsyncResponse delegate = null;
+    //public MainActivity.com.example.mel76.fuelwatch11.AsyncResponse delegate = null;
+
+   // public interface AsyncResponse{
+   //     void processFinish(String output);
+   // }
+
+    public AsyncResponse delegate = null;
+
+    public SigninActivity(AsyncResponse delegate){
+
+        this.delegate = delegate;
+    }
 
 
     public SigninActivity(Context context, TextView oilLevel, int flag) {
@@ -27,6 +38,7 @@ public class SigninActivity extends AsyncTask<String,Void,String> {
     }
 
     protected void onPreExecute() {
+
 
     }
 
@@ -71,11 +83,19 @@ public class SigninActivity extends AsyncTask<String,Void,String> {
     //Bridget - this is where the oil level is set to the device
     protected void onPostExecute(String result) {
 
-        this.oilLevel.setText(result);
-        System.out.println(result);
-        oilLevelFromDataBase = result;
-       // delegate.processFinish(result);
+        //delegate.processFinish(result);
+       this.oilLevel.setText(result);
+       System.out.println(result);
+        //oilLevelFromDataBase = result;
+       // delegate.process
+       // Finish(result);
 
+
+    }
+
+    @Override
+    protected void onProgressUpdate(Void... values) {
+     //  this.oilLevel.setText(values);
 
     }
 
