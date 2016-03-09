@@ -23,13 +23,13 @@ public class SigninActivity extends AsyncTask<String,Void,String> {
    //     void processFinish(String output);
    // }
 
-    public AsyncResponse delegate = null;
+  //  public log_in_screen.AsyncResponse delegate = null;
 
-    public SigninActivity(AsyncResponse delegate){
+  /*  public SigninActivity(log_in_screen.AsyncResponse delegate){
 
         this.delegate = delegate;
     }
-
+*/
 
     public SigninActivity(Context context, TextView oilLevel, int flag) {
         this.context = context;
@@ -66,7 +66,7 @@ public class SigninActivity extends AsyncTask<String,Void,String> {
                 BufferedReader reader = new BufferedReader
                         (new InputStreamReader(conn.getInputStream()));
                 StringBuilder sb = new StringBuilder();
-                String line = null;
+                String line;
                 // Read Server Response
                 while ((line = reader.readLine()) != null) {
                     sb.append(line);

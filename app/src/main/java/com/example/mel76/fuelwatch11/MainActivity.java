@@ -1,23 +1,17 @@
 package com.example.mel76.fuelwatch11;
 
 import android.app.Activity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.content.Intent;
-import android.view.MenuItem;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
+import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
 
 
 
 
 public class MainActivity extends Activity {
 
-    private final int SPLASH_DISPLAY_LENGTH = 10000;
+    private final int SPLASH_DISPLAY_LENGTH = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
